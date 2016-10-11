@@ -50,9 +50,11 @@ public class Sorter {
 					} //end if
 				} // end for				
 			} // end if
+			print_array(arr);
 		} // end while
 		pass++;
-	} 	
+	}
+	
 	/**
 	 * Method for Insertion sort
 	 * @param arr the array of integers to be sorted
@@ -72,29 +74,36 @@ public class Sorter {
 				} // end while
 			}else{
 				while(loc>0 && arr[loc-1]<nextItem){
-					arr[loc] = arr[loc-1]; // Shift Array[loc - 1] to the right
+					arr[loc] = arr[loc-1]; // Shift to right
 					loc--;				
 				} // end while
 			} // end if
 			arr[loc] = nextItem;  // Insert nextItem into sorted region
-//			print_array(arr);
+			print_array(arr);
 		} // end for
-	} 
+	}
+	
 	/**
-	 * Method for Mergen sort
+	 * Method for Merge sort
 	 * @param arr the array of integers to be sorted
 	 * @param order a flag for ordering in ascending (true) or descending (false) order
 	 */
-	public void mergeSort(int[] arr, boolean order){
+	public int[] mergeSort(int[] arr, boolean order){
 		int n = arr.length;
-		if(n!=1){ 
+		if(n!=1){
+			// divides array into two parts
 			int[] arr1 = Arrays.copyOfRange(arr, 0, n/2);
 			int[] arr2 = Arrays.copyOfRange(arr, n/2, n);
-			mergeSort(arr1, order);
-			mergeSort(arr2, order);
+			// go on dividing untill each element has only one element
+			arr1 = mergeSort(arr1, order);
+			arr2 = mergeSort(arr2, order);
+			// merge the two sorted parts together
 			return merge(arr1, arr2, order);
-		} // end if
-	} 		
+		} else {
+			return arr;
+		}// end if
+	} 
+	
 	/**
 	 * Method to display array elements
 	 * @param arr the array of integers to display
@@ -107,13 +116,53 @@ public class Sorter {
 		} // end for
 		System.out.println("]");
 	}
+	
 	/**
-	 * Helper Method to for MergeSort method
+	 * Helper Method for MergeSort method
+	 * @param arr1 the first array of integers to be merged
+	 * @param arr2 the second array of integers to be merged
+	 * @param order a flag for ordering in ascending (true) or descending (false) order	 
+	 * @return the merged array 
 	 */	
-	private int[] merge(int[] arr1, int[] arr2, boolean order){
-		ArrayList<Integer> arrL1 = new ArrayList<>(Arrays.asList(arr1)));
-		
-	}
+	public int[] merge(int[] arr1, int[] arr2, boolean order){
+		int[] temp = new int[arr1.length+arr2.length]; // temporary array for holding sorted elements
+		int currentPosition = 0;
+		if(order){
+			while(arr1.length>0 && arr2.length>0){
+				if(arr1[0]<arr2[0]){
+					temp[currentPosition] = arr1[0];
+					arr1 = shift(arr1);
+				} else {
+					temp[currentPosition] = arr2[0];
+					arr2 = shift(arr2);
+				} // end if
+				currentPosition++;
+			} // end while
+		} else {
+			while(arr1.length>0 && arr2.length>0){
+				if(arr1[0]>arr2[0]){
+					temp[currentPosition] = arr1[0];
+					arr1 = shift(arr1);
+				} else {
+					temp[currentPosition] = arr2[0];
+					arr2 = shift(arr2);
+				} // end if
+				currentPosition++;
+			} // end while			
+		} // end if
+		while(arr1.length > 0){
+			temp[currentPosition] = arr1[0];
+			arr1 = shift(arr1);
+			currentPosition++;
+		} // end while
+		while(arr2.length > 0){
+			temp[currentPosition] = arr2[0];
+			arr2 = shift(arr2);
+			currentPosition++;
+		} // end while	
+		return temp;
+	} // end merge
+	
 	/**
 	 * Helper Method to fine the index of the largest element in the array
 	 * @param arr the array to be looked in
@@ -134,6 +183,7 @@ public class Sorter {
 		} //end if
 		return index;
 	}
+	
 	/**
 	 * Helper Method to swap elements in the array
 	 */	
@@ -142,4 +192,16 @@ public class Sorter {
 		arr[last] = arr[index];
 		arr[index] = temp;
 	}	
+	
+	/**
+	 * Helper Method to remove first element from array
+	 * @param arr the array whose first element is being removed 
+	 * @return the removed element 
+	 */	
+	private int[] shift(int[] arr){
+		int[] temp = new int[arr.length-1];
+		for(int i=0;i<arr.length-1;i++)
+			temp[i]=arr[i+1];
+		return temp;
+	} // end shift
 }

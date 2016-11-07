@@ -104,6 +104,41 @@ public class Sorter {
 		}// end if
 	} 
 	
+	public void quickSort(int[] arr, int left, int right){
+	
+		if(left>right){
+			return;
+		} else {
+			int pivot = arr[right];
+			int part = partition(arr, left, right, pivot);
+			quickSort(arr, left, part-1);
+			quickSort(arr, part+1, right);
+		}
+	}
+	
+	public int partition(int[] arr, int left, int right, int pivot){
+		int leftIndex = left-1;
+		int rightIndex=right;
+		
+		while(true){
+			while(arr[++leftIndex]<pivot){
+				System.out.print("left");
+				System.out.println(arr[leftIndex]);
+			}
+			while(rightIndex>0 && arr[--rightIndex]>pivot){
+				System.out.print("right");
+				System.out.println(arr[rightIndex]);
+			}
+			
+			if(rightIndex>=leftIndex){
+				break;
+			} else {
+				swap(arr,leftIndex,rightIndex);
+			}
+		}
+		swap(arr,leftIndex,right);
+		return leftIndex;
+	}
 	/**
 	 * Method to display array elements
 	 * @param arr the array of integers to display
@@ -183,6 +218,8 @@ public class Sorter {
 		} //end if
 		return index;
 	}
+	
+	
 	
 	/**
 	 * Helper Method to swap elements in the array

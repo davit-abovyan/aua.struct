@@ -4,6 +4,8 @@ import java.util.*;
 public class SorterTest {
 
 	public static void main(String[] args) {
+		
+		/*
 		Scanner input = new Scanner(System.in);
 		System.out.println("[1: Selection sort]");
 		System.out.println("[2: Bubble sort]");
@@ -43,12 +45,13 @@ public class SorterTest {
 			arr = testInstance.mergeSort(arr,direction);
 			testInstance.print_array(arr);
 		}
-
-
+	
+*/		
+		Sorter test = new Sorter();
+		int[] arr={4,5,1,9,6,2,7};
+		test.quickSort(arr, 0, arr.length-1);
+		test.print_array(arr);
 		
-//		
-//		
-
 	}
 
 }
